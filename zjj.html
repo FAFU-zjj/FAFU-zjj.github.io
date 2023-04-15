@@ -37,7 +37,8 @@
         "esri/widgets/LayerList",
         "esri/widgets/Search",
         "esri/widgets/BasemapToggle",
-
+        "esri/widgets/Expand",
+        "esri/widgets/Compass",
         "esri/widgets/BasemapGallery"
       ], (
         Map,
@@ -47,6 +48,8 @@
         ScaleBar,
         LayerList,
         Search,
+        Compass,
+        Expand,
         BasemapToggle,
         BasemapGallery
       ) => {
@@ -84,15 +87,6 @@
         });
         view.ui.add(legend, "bottom-right");
 
-        let scaleBar = new ScaleBar({
-          view: view,
-          style: "ruler",
-          unit: "metric"
-        });
-        view.ui.add(scaleBar, {
-          position: "bottom-left"
-        });
-
         const searchWidget = new Search({
           view: view
         });
@@ -113,14 +107,34 @@
           nextBasemap: "hybrid"
         });
 
-        view.ui.add(basemapToggle, "bottom-right");
+        view.ui.add(basemapToggle, "top-right");
 
         let basemapGallery = new BasemapGallery({
           view: view
         });
-        view.ui.add(basemapGallery, {
-          position: "top-right"
+        
+              basemapGalleryExpand = new Expand({
+        expandIconClass: "esri-icon-layer-list",  // see https://developers.arcgis.com/javascript/latest/guide/esri-icon-font/
+        // expandTooltip: "Expand LayerList", // optional, defaults to "Expand" for English locale
+        view: view,
+        content: basemapGallery
+      });
+      view.ui.add(basemapGalleryExpand, "top-left");
+
+        
+        let scaleBar = new ScaleBar({
+          view: view,
+          style: "ruler",
+          unit: "metric"
         });
+        view.ui.add(scaleBar, {
+          position: "bottom-left"
+        });
+        
+        let compass = new Compass({
+         view: view
+        });
+        view.ui.add(compass, "top-left");
 
         var coordsWidget = document.createElement("div");
         coordsWidget.id = "coordsWidget";
